@@ -6,16 +6,24 @@ const postModel = require('./post');
 const passport = require('passport');
 const localStrategy = require("passport-local")
 //doing user login
-passport.authenticate(new localStrategy(userModel.authenticate()))
+passport.use(new localStrategy(userModel.authenticate()))
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Pintrest' });
+});
+
+router.get('/login', function(req, res, next) {
+  res.render('login', { title: 'Pintrest' });
 });
 
 
 router.get('/profile',isLoggedIn, function(req, res, next) {
   res.send('profile');
+});
+
+router.get('/feed', function(req, res, next) {
+  res.render('feed');
 });
 
 router.post('/registor',function(req,res,next){
