@@ -10,6 +10,9 @@ passport.use(new localStrategy(userModel.authenticate()))
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  if(req.isAuthenticated())
+    res.render('feed', { title: 'Pintrest' });
+
   res.render('index', { title: 'Pintrest' });
 });
 
@@ -19,7 +22,7 @@ router.get('/login', function(req, res, next) {
 
 
 router.get('/profile',isLoggedIn, function(req, res, next) {
-  res.send('profile');
+  res.render('profile',{followers: 0,username:'Abdul Lahad'})
 });
 
 router.get('/feed', function(req, res, next) {
@@ -41,7 +44,7 @@ router.post('/registor',function(req,res,next){
 
 router.post('/login',passport.authenticate('local',{
     successRedirect:'/profile',
-    failureRedirect:'/'
+    failureRedirect:'/login'
 }),function(req,res,next){
   
 })
@@ -57,7 +60,7 @@ router.get('/logout',function(req,res){
 function isLoggedIn(req,res,next){
   if(req.isAuthenticated()) return next();
 
-  res.redirect('/')
+  res.redirect('/login')
 
 }
 
